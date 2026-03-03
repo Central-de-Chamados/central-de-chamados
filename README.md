@@ -1,260 +1,258 @@
+**Language:** 🇺🇸 English | [🇧🇷 Português](./README.pt-br.md)
+
 # Central de Chamados
 
-### Arquitetura End-to-End para Estruturação de Atendimento via WhatsApp
+### End-to-End Architecture for Structuring Customer Support via WhatsApp
 
 ---
 
-## 📌 Visão Geral
+## 📌 Overview
 
-A **Central de Chamados** é um projeto end-to-end que resolve um problema operacional real:
+**Central de Chamados** is an end-to-end project designed to solve a real operational problem:
 
-> Pequenas operações que utilizam WhatsApp como canal principal de atendimento não possuem estrutura formal de gestão.
+> Small service operations that rely on WhatsApp as their primary support channel lack formal management structure.
 
-O projeto foi concebido, modelado e implementado com foco em:
+The project was conceived, modeled, and implemented with focus on:
 
-- Definição clara do problema  
-- Análise de requisitos baseada em operação real  
-- Modelagem orientada a domínio  
-- Decisões arquiteturais com trade-offs explícitos  
-- Preparação para produção  
-- Evolução para camada de inteligência (AI-ready)  
+- Clear problem definition  
+- Requirements analysis based on real operations  
+- Domain-driven modeling  
+- Architectural decisions with explicit trade-offs  
+- Production readiness  
+- Evolution toward an intelligence layer (AI-ready)  
 
-Este repositório é o **overview arquitetural do sistema** e conecta os demais componentes.
-
----
-
-## 🎯 Problema Real
-
-Assistências técnicas e pequenas operações de serviço utilizam o WhatsApp para:
-
-- Orçamentos  
-- Aprovação de serviços  
-- Atualizações  
-- Reclamações  
-- Pós-venda  
-
-O WhatsApp resolve comunicação.
-
-Não resolve gestão.
-
-Com o crescimento do volume, surgem falhas estruturais:
-
-- Chamados esquecidos  
-- Falta de histórico organizado  
-- Status implícito  
-- Dependência da memória do proprietário  
-- Dificuldade de escalar  
-
-O gargalo é estrutural, não tecnológico.
+This repository represents the **architectural overview of the system** and connects all other components.
 
 ---
 
-## 📊 Impacto Esperado
+## 🎯 Real-World Problem
 
-Hipóteses que o sistema busca validar em produção:
+Technical assistance shops and small service operations use WhatsApp for:
 
-- Redução do tempo médio de resposta  
-- Redução de retrabalho  
-- Redução de chamados esquecidos  
-- Maior previsibilidade operacional  
-- Menor dependência do proprietário  
+- Quotes  
+- Service approvals  
+- Updates  
+- Complaints  
+- After-sales support  
 
-O projeto é orientado a impacto mensurável.
+WhatsApp solves communication.
+
+It does not solve management.
+
+As volume grows, structural failures emerge:
+
+- Forgotten service tickets  
+- Lack of organized history  
+- Implicit status tracking  
+- Dependency on the owner’s memory  
+- Difficulty scaling  
+
+The bottleneck is structural — not technological.
 
 ---
 
-## 🏗 Arquitetura Geral
+## 📊 Expected Impact
 
-### Modelo Arquitetural
+Hypotheses the system aims to validate in production:
 
-- SaaS Multi-Tenant  
+- Reduction in average response time  
+- Reduction in rework  
+- Fewer forgotten tickets  
+- Greater operational predictability  
+- Less dependency on the business owner  
+
+The project is impact-oriented and measurable.
+
+---
+
+## 🏗 Overall Architecture
+
+### Architectural Model
+
+- Multi-Tenant SaaS  
 - Serverless  
 - API-First  
-- Orientado a Domínio  
-- Escalável horizontalmente  
-- Preparado para camada de AI  
+- Domain-Oriented  
+- Horizontally scalable  
+- AI-layer ready  
 
-### Diagrama Conceitual
+### Conceptual Diagram
 
 ```mermaid
 flowchart LR
-    U[Usuário] --> W[WhatsApp]
-    W --> B[Backend - API Serverless]
+    U[User] --> W[WhatsApp]
+    W --> B[Backend - Serverless API]
     B --> D[(DynamoDB)]
-    B --> F[Dashboard Administrativo]
+    B --> F[Admin Dashboard]
 ```
 
----
+## 🧱 System Components
 
-## 🧱 Componentes do Sistema
+### 🔹 Backend (Primary Technical Asset)
 
-### 🔹 Backend (Principal ativo técnico)
+Responsible for:
 
-Responsável por:
+- Domain modeling  
+- Ticket structuring  
+- Status control  
+- Persistent history  
+- Multi-tenant isolation  
+- Security and authentication  
+- API versioning  
+- Idempotency  
 
-- Modelagem de domínio  
-- Estruturação de chamados  
-- Controle de status  
-- Histórico persistente  
-- Isolamento multi-tenant  
-- Segurança e autenticação  
-- Versionamento de API  
-- Idempotência  
-
-Repositório:  
+Repository:  
 `central-de-chamados-backend`
 
 ---
 
-### 🔹 Infraestrutura / DevOps
+### 🔹 Infrastructure / DevOps
 
-Responsável por:
+Responsible for:
 
-- Provisionamento com Terraform  
-- Ambientes (dev / staging / prod)  
-- Deploy serverless  
-- Segurança e políticas  
-- Observabilidade  
+- Provisioning with Terraform  
+- Environments (dev / staging / prod)  
+- Serverless deployment  
+- Security and policies  
+- Observability  
 - CI/CD  
-- Controle de custos  
+- Cost control  
 
-Repositório:  
+Repository:  
 `central-de-chamados-infra`
 
 ---
 
 ### 🔹 Frontend (Dashboard)
 
-Responsável por:
+Responsible for:
 
-- Visualização de chamados  
-- Gestão de status  
-- Interface administrativa  
-- Integração com API  
+- Ticket visualization  
+- Status management  
+- Administrative interface  
+- API integration  
 
-Repositório:  
+Repository:  
 `central-de-chamados-frontend`
 
 ---
 
-## 🧠 Decisões Arquiteturais
+## 🧠 Architectural Decisions
 
 ### 1. Serverless
 
-Escolha por AWS Lambda + API Gateway:
+Choice: AWS Lambda + API Gateway
 
-- Escalabilidade automática  
-- Modelo pay-per-use  
-- Redução de custo ocioso  
-- Simplicidade operacional inicial  
+- Automatic scalability  
+- Pay-per-use model  
+- Reduced idle costs  
+- Operational simplicity at early stage  
 
 Trade-off:
-- Complexidade maior em observabilidade e cold starts  
+- Increased complexity in observability and cold starts  
 
 ---
 
 ### 2. DynamoDB + Single Table Design
 
-Escolha orientada por:
+Chosen based on:
 
-- Padrões reais de consulta  
-- Performance previsível  
-- Baixa latência  
-- Escala horizontal nativa  
+- Real access patterns  
+- Predictable performance  
+- Low latency  
+- Native horizontal scalability  
 
 Trade-off:
-- Modelagem inicial mais complexa  
-- Necessidade de disciplina nas chaves e índices  
+- Higher initial modeling complexity  
+- Requires strict discipline in key and index design  
 
 ---
 
-### 3. Multi-Tenancy por `company_id`
+### 3. Multi-Tenancy via `company_id`
 
-- Isolamento lógico  
-- Segurança aplicada desde o MVP  
-- Preparado para expansão sem reestruturação  
+- Logical isolation  
+- Security applied from MVP stage  
+- Prepared for expansion without restructuring  
 
 ---
 
-## 🔐 Considerações de Produção
+## 🔐 Production Considerations
 
-O projeto considera desde o início:
+From the beginning, the project includes:
 
-- Segurança multi-tenant  
-- Versionamento de API  
-- Idempotência em operações críticas  
-- Estrutura preparada para logs estruturados  
-- Métricas por tenant  
-- Monitoramento de performance  
+- Multi-tenant security  
+- API versioning  
+- Idempotency for critical operations  
+- Structured logging readiness  
+- Tenant-level metrics  
+- Performance monitoring  
 
-Não é um projeto acadêmico.
+This is not an academic project.
 
-É projetado para sobreviver em produção.
+It is designed to survive in production.
 
 ---
 
 ## 🤖 AI-Ready Architecture
 
-A arquitetura permite evolução para camada de inteligência aplicada ao atendimento.
+The architecture supports evolution toward an intelligence layer applied to customer support.
 
-Possíveis extensões:
+Possible extensions:
 
-- Classificação automática de mensagens  
-- Extração de intenção  
-- Sugestão de resposta assistida  
-- Sumário automático de histórico  
-- Detecção de risco de atraso  
-- Identificação de padrões operacionais  
+- Automatic message classification  
+- Intent extraction  
+- Assisted response suggestions  
+- Automatic history summarization  
+- Delay risk detection  
+- Operational pattern identification  
 
-O core foi desenhado para suportar essa camada sem reestruturação do banco.
-
----
-
-## 👤 ICP (Validação Inicial)
-
-Segmento inicial:
-
-- Assistências técnicas de celular  
-- Assistências de informática  
-
-Perfil:
-
-- 1–5 operadores  
-- 10–40 atendimentos diários  
-- Baixa formalização de processo  
-- Dependência operacional do WhatsApp  
-
-A arquitetura não é limitada ao nicho inicial.
+The core was designed to support this layer without database restructuring.
 
 ---
 
-## 🚀 Objetivo Estratégico
+## 👤 ICP (Initial Validation)
 
-Demonstrar capacidade de:
+Initial target segment:
 
-- Resolver problema real  
-- Modelar domínio com clareza  
-- Tomar decisões arquiteturais conscientes  
-- Trabalhar com infraestrutura como código  
-- Construir sistema escalável e observável  
-- Projetar software preparado para evolução com AI  
+- Mobile repair shops  
+- Computer repair services  
+
+Profile:
+
+- 1–5 operators  
+- 10–40 daily service interactions  
+- Low process formalization  
+- Strong operational dependency on WhatsApp  
+
+The architecture is not limited to the initial niche.
+
+---
+
+## 🚀 Strategic Objective
+
+Demonstrate the ability to:
+
+- Solve a real-world problem  
+- Model a domain clearly  
+- Make conscious architectural decisions  
+- Work with Infrastructure as Code  
+- Build scalable and observable systems  
+- Design software prepared for AI evolution  
 
 ---
 
 ## 📌 Status
 
-Em desenvolvimento ativo.
+Under active development.
 
-Foco atual:
+Current focus:
 
-- Consolidação do backend  
-- Estrutura multi-tenant robusta  
-- Infraestrutura automatizada  
-- Preparação para métricas operacionais  
+- Backend consolidation  
+- Robust multi-tenant structure  
+- Automated infrastructure  
+- Preparation for operational metrics  
 
----
-
-### Estrutura de Repositórios
+### Repository Structure
 
 ```mermaid
 flowchart TB
@@ -265,19 +263,16 @@ flowchart TB
     A --> D["central-de-chamados-frontend"]
 ```
 
+## 📎 Conclusion
 
----
+Central de Chamados is a modern architecture designed to structure WhatsApp-based customer support for small service operations.
 
-## 📎 Conclusão
+The project combines:
 
-A Central de Chamados é uma arquitetura moderna para estruturar atendimento via WhatsApp em pequenas operações de serviço.
-
-O projeto combina:
-
-- Engenharia de backend  
-- Infraestrutura como código  
-- Arquitetura serverless  
+- Backend engineering  
+- Infrastructure as Code  
+- Serverless architecture  
 - Multi-tenancy  
-- Preparação para inteligência aplicada  
+- AI-readiness  
 
-Mais do que um sistema, é um exercício completo de engenharia aplicada ao mundo real.
+More than a system, it is a complete exercise in real-world applied engineering.

@@ -240,6 +240,15 @@ Demonstrate the ability to:
 - Design software prepared for AI evolution  
 
 ---
+## 🤝 Relationship with Other Repositories  
+
+This repository integrates with:  
+
+- [central-de-chamados-backend](https://github.com/Central-de-Chamados/central-de-chamados_backend) → Application code deployed to Lambda   
+- [central-de-chamados-infra](https://github.com/Central-de-Chamados/central-de-chamados_infra) → Supports frontend deployment and observability
+- [central-de-chamados-frontend](https://github.com/Central-de-Chamados/central-de-chamados_frontend) → Frontend interface integrated with the API  
+
+---
 
 ## 📌 Status
 

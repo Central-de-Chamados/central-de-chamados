@@ -242,6 +242,14 @@ Demonstrar capacidade de:
 - Projetar software preparado para evolução com AI  
 
 ---
+## 🤝 Relação com Outros Repositórios  
+
+Este repositório integra com:  
+
+- [central-de-chamados-backend](https://github.com/Central-de-Chamados/central-de-chamados_backend) → Código da aplicação implantado na Lambda  
+- [central-de-chamados-infra](https://github.com/Central-de-Chamados/central-de-chamados_infra) → Suporte ao deploy e observabilidade do frontend  
+- [central-de-chamados-frontend](https://github.com/Central-de-Chamados/central-de-chamados_frontend) → Interface frontend integrada à API  
+---
 
 ## 📌 Status
 
